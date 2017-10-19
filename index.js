@@ -12,13 +12,14 @@ app.use(express.static(__dirname + '/front_end/build'))
 
 app.post('/api/sign-in', authentication.signIn)
 app.post('/api/sign-up', authentication.signUp)
-app.post('/api/forgot-password')
+app.post('/api/forgot-password')  
 
 app.get('/sign-in/facebook', facebook.authenticate, facebook.login)
 // app.get('/sign-in/google', googleLogin)
 
 app.get('/api/me', authentication.secure, users.get)
 app.put('/api/me', authentication.secure, users.put)
+app.put('/api/me/password', authentication.secure, users.changePassword)
 app.delete('/api/me', authentication.secure, users.delete)
 
 app.listen(process.env.PORT, () => {

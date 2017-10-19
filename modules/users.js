@@ -16,14 +16,21 @@ module.exports.get = (req, res) => {
 
 // Edit User Details
 module.exports.put = (req, res) => {
-	db.query('SELECT * FROM users WHERE id = $1 AND archived IS NULL', [req.user.id]).then(({ rows }) => {
-		const user = rows[0]
-		if (!user) {
-			res.send({ invalidLogin: true })
-		} else {
-			res.json(user)
-		}
-	}).catch(() => res.json({ error: 'Server error.' }))
+	if (!req.body.name || !req.body.email) {
+		res.json({ error: 'Please enter name and email.' })
+	} else {
+		db.query(
+			'UPDATE users SET email = $1, name = $2 WHERE id = $3 RETURNING *', 
+			[ req.body.email, req.body.name, req.user.id ]
+		).then(({ rows }) => {
+			res.json(rows[0])
+		}).catch(() => res.json({ error: 'Server error.' }))
+	}
+}
+
+// Change Password
+module.exports.changePassword = (req, res) => {
+	
 }
 
 // Archive User
