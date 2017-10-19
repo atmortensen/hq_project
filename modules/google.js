@@ -20,20 +20,38 @@ module.exports.authenticate = passport.authenticate('google', { session: false, 
 
 // Sign Up or Sign In
 module.exports.signIn = (req, res) => {
+
+	const redirect = (id) => {
+		const tempToken = jwt.sign({ id: id }, process.env.JWT_SECRET, { expiresIn: 60 })
+		res.redirect('/social-success?temp=' + tempToken)
+	}
+
+	const signIn = (existingUser) => {
+		if (!existingUser.google_id) {
+			db.query('UPDATE users SET google_id = $1 WHERE id = $2', [ req.user.id, existingUser.id ]).then(() => {
+				redirect(existingUser.id)
+			})
+		} else {
+			redirect(existingUser.id)
+		}
+	}
+	
+	const signUp = () => {
+		db.query(
+			'INSERT INTO users (email, google_id, name) VALUES ($1, $2, $3) RETURNING id', 
+			[ req.user.emails[0].value, req.user.id, req.user.displayName ]
+		).then(({ rows }) => {
+			redirect(rows[0].id)
+		}).catch(() => res.json({ error: 'Server error.' }))
+	}
+
 	db.query('SELECT * FROM users WHERE email = $1 AND archived IS NULL', [req.user.emails[0].value]).then(({ rows }) => {
 		const existingUser = rows[0]
 		if (existingUser) {
-			if (!existingUser.google_id) {
-				db.query('UPDATE users SET google_id = $1 WHERE id = $2', [ req.user.id, existingUser.id ])
-			}
-			res.json({ token: jwt.sign({ id: existingUser.id }, process.env.JWT_SECRET) })
+			signIn(existingUser)
 		} else {
-			db.query(
-				'INSERT INTO users (email, google_id, name) VALUES ($1, $2, $3) RETURNING id', 
-				[ req.user.emails[0].value, req.user.id, req.user.displayName ]
-			).then(({ rows: insertedRows }) => {
-				res.json({ token: jwt.sign({ id: insertedRows[0].id }, process.env.JWT_SECRET) })
-			}).catch(() => res.json({ error: 'Server error.' }))
+			signUp()
 		}
 	}).catch(() => res.json({ error: 'Server error.' }))
+
 }

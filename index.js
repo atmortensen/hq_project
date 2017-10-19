@@ -17,6 +17,7 @@ app.post('/api/forgot-password')
 
 app.get('/sign-in/facebook', facebook.authenticate, facebook.signIn)
 app.get('/sign-in/google', google.authenticate, google.signIn)
+app.post('/api/social-token', authentication.getToken)
 
 app.get('/api/me', authentication.secure, users.get)
 app.put('/api/me', authentication.secure, users.put)
@@ -30,5 +31,12 @@ app.listen(process.env.PORT, () => {
 
 // To Do
 // - Forgot Password Route
-// - Google Auth
-// - Change Password
+// - Change Password Route
+// - Create endpoint that takes temporary JWT and returns a permanent one.
+
+// Front End Routes
+// - Sign In (email, password, facebook, google)
+// - Sign Up (name, email, password)
+// - Forgot Password
+// - Profile (name change, email change, google id connect, facebook id connect, logout) Must use the same email to connect 
+// - Change/Add Password
