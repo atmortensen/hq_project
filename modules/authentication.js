@@ -9,7 +9,7 @@ module.exports.signIn = (req, res) => {
 	if (!req.body.password || !req.body.email) {
 		res.json({ error: 'Please enter email and password.' })
 	} else {
-		db.query('SELECT * FROM users WHERE email = $1', [req.body.email]).then(({ rows }) => {
+		db.query('SELECT * FROM users WHERE email = $1 AND archived IS NULL', [req.body.email]).then(({ rows }) => {
 			const user = rows[0]
 			if (!user) {
 				res.json({ error: 'User with that email address could not be found.' })
@@ -28,7 +28,7 @@ module.exports.signUp = (req, res) => {
 	if (!email || !password || !name) {
 		res.json({ error: 'Please fill out all fields.' })
 	} else {
-		db.query('SELECT * FROM users WHERE email = $1', [email]).then(({ rows: existingUser }) => {
+		db.query('SELECT * FROM users WHERE email = $1 AND archived IS NULL', [email]).then(({ rows: existingUser }) => {
 			if (existingUser[0]) {
 				res.json({ error: 'This email address is already being used.' })
 			} else {
@@ -64,6 +64,6 @@ module.exports.secure = (req, res, next) => {
 // 		name TEXT NOT NULL,
 // 		facebook_id TEXT,
 // 		google_id TEXT,
-// 		archived BOOLEAN DEFAULT false NOT NULL
+// 		archived TEXT
 // 	)
 // `)
