@@ -5,6 +5,7 @@ const bodyParser = require('body-parser')
 const authentication = require('./modules/authentication')
 const users = require('./modules/users')
 const facebook = require('./modules/facebook')
+const google = require('./modules/google')
 
 require('dotenv').config()
 app.use(bodyParser.json())
@@ -15,7 +16,7 @@ app.post('/api/sign-up', authentication.signUp)
 app.post('/api/forgot-password')  
 
 app.get('/sign-in/facebook', facebook.authenticate, facebook.signIn)
-// app.get('/sign-in/google', googleLogin)
+app.get('/sign-in/google', google.authenticate, google.signIn)
 
 app.get('/api/me', authentication.secure, users.get)
 app.put('/api/me', authentication.secure, users.put)
