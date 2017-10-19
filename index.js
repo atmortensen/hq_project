@@ -3,17 +3,23 @@ const app = express()
 const bodyParser = require('body-parser')
 
 const authentication = require('./modules/authentication')
+const users = require('./modules/users')
+const facebook = require('./modules/facebook')
 
 require('dotenv').config()
 app.use(bodyParser.json())
 app.use(express.static(__dirname + '/front_end/build'))
 
-app.post('/api/sign-in')
-app.post('/api/sign-up')
+app.post('/api/sign-in', authentication.signIn)
+app.post('/api/sign-up', authentication.signUp)
+app.post('/api/forgot-password')
 
-app.get('/api/user/:id')
-app.put('/api/user/:id')
-app.delete('/api/user/:id')
+app.get('/sign-in/facebook', facebook.authenticate, facebook.login)
+// app.get('/sign-in/google', googleLogin)
+
+app.get('/api/me', authentication.secure, users.get)
+app.put('/api/me', authentication.secure, users.put)
+app.delete('/api/me', authentication.secure, users.delete)
 
 app.listen(process.env.PORT, () => {
 	console.log('Listening on port ' + process.env.PORT)
