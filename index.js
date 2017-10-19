@@ -2,6 +2,8 @@ const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
 
+const authentication = require('./modules/authentication')
+
 require('dotenv').config()
 app.use(bodyParser.json())
 app.use(express.static(__dirname + '/front_end/build'))
