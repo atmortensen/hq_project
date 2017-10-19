@@ -16,7 +16,7 @@ module.exports.signIn = (req, res) => {
 			} else if (bcrypt.compareSync(req.body.password, user.password)) {
 				res.json({ token: jwt.sign({ id: user.id }, process.env.JWT_SECRET) })
 			} else {
-				res.json({ error: 'Incorrect email or password.' })
+				res.json({ error: 'Incorrect password. Try resetting your password or logging in with Facebook or Google.' })
 			}
 		}).catch(() => res.json({ error: 'Server error.' }))
 	}
@@ -33,10 +33,12 @@ module.exports.signUp = (req, res) => {
 				res.json({ error: 'This email address is already being used.' })
 			} else {
 				const hashedPassword = bcrypt.hashSync(password, 10)
-				db.query('INSERT INTO users (email, password, name) VALUES ($1, $2, $3) RETURNING id', [ email, hashedPassword, name ])
-					.then(({ rows: newUser }) => {
-						res.json({ token: jwt.sign({ id: newUser[0].id }, process.env.JWT_SECRET) })
-					})
+				db.query(
+					'INSERT INTO users (email, password, name) VALUES ($1, $2, $3) RETURNING id', 
+					[ email, hashedPassword, name ]
+				).then(({ rows: newUser }) => {
+					res.json({ token: jwt.sign({ id: newUser[0].id }, process.env.JWT_SECRET) })
+				}).catch(() => res.json({ error: 'Server error.' }))
 			}
 		}).catch(() => res.json({ error: 'Server error.' }))
 	}
@@ -59,7 +61,7 @@ module.exports.secure = (req, res, next) => {
 // 	DROP TABLE IF EXISTS users;
 // 	CREATE TABLE users (
 // 		id SERIAL PRIMARY KEY NOT NULL,
-// 		password TEXT NOT NULL,
+// 		password TEXT,
 // 		email TEXT NOT NULL,
 // 		name TEXT NOT NULL,
 // 		facebook_id TEXT,

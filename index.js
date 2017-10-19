@@ -14,7 +14,7 @@ app.post('/api/sign-in', authentication.signIn)
 app.post('/api/sign-up', authentication.signUp)
 app.post('/api/forgot-password')  
 
-app.get('/sign-in/facebook', facebook.authenticate, facebook.login)
+app.get('/sign-in/facebook', facebook.authenticate, facebook.signIn)
 // app.get('/sign-in/google', googleLogin)
 
 app.get('/api/me', authentication.secure, users.get)
@@ -25,3 +25,9 @@ app.delete('/api/me', authentication.secure, users.delete)
 app.listen(process.env.PORT, () => {
 	console.log('Listening on port ' + process.env.PORT)
 })
+
+
+// To Do
+// - Forgot Password Route
+// - Google Auth
+// - Change Password
