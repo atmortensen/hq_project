@@ -16,6 +16,7 @@
     "nodemon": "^1.12.1"
   },
   "dependencies": {
+    "@sendgrid/mail": "^6.1.4",
     "bcrypt": "^1.0.3",
     "body-parser": "^1.18.2",
     "dotenv": "^4.0.0",

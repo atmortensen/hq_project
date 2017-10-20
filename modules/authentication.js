@@ -1,6 +1,7 @@
 const db = require('./db_connect')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
+const sgMail = require('@sendgrid/mail')
 
 module.exports = {}
 
@@ -72,6 +73,41 @@ module.exports.getToken = (req, res) => {
 			res.json({ token: jwt.sign({ id: payload.id }, process.env.JWT_SECRET) })
 		}
 	})
+}
+
+// Forgot Password
+module.exports.forgotPassword = (req, res) => {
+	if (!req.body.email) {
+		res.json({ error: 'Please enter an email.' })
+	} else {
+		db.query('SELECT * FROM users WHERE email = $1 AND archived IS NULL', [req.body.email]).then(({ rows }) => {
+			const user = rows[0]
+			if (!user) {
+				res.json({ error: 'User with that email address could not be found.' })
+			} else {
+				const tempToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '30m' })
+				const frontEndUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000/' : 'https://hq-project.herokuapp.com/'
+				sgMail.setApiKey(process.env.SENDGRID_SK)
+				const msg = {
+					to: req.body.email,
+					from: 'HQ Project <alextmortensen@gmail.com>',
+					subject: 'Password Reset',
+					html: `
+						<p>Click on the link below to reset your password.</p>
+						<a href="${ frontEndUrl }change-password?token=${ tempToken }">Reset Password</a>
+						<p>This link will expire in 30 minutes. If you did not request this email you can ignore it.
+					`
+				}
+				sgMail.send(msg, false, (err) => {
+					if (err) {
+						res.json({ error: 'There was a problem sending the email.' })
+					} else {
+						res.end()
+					}
+				})
+			}
+		}).catch(() => res.json({ error: 'Server error.' }))
+	}
 }
 
 

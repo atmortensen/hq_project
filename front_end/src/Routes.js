@@ -7,6 +7,7 @@ import SignUp from './routes/SignUp.component'
 import Profile from './routes/Profile.component'
 import SocialLoginSuccess from './routes/SocialLoginSuccess.component'
 import ChangePassword from './routes/ChangePassword.component'
+import ForgotPassword from './routes/ForgotPassword.component'
 
 export default class Routes extends Component {
 	render() {
@@ -18,6 +19,7 @@ export default class Routes extends Component {
 					<Route exact path="/profile" component={secure(Profile)} />
 					<Route exact path="/change-password" component={secure(ChangePassword)} />
 					<Route exact path="/social-login-success" component={insecure(SocialLoginSuccess)} />
+					<Route exact path="/forgot-password" component={insecure(ForgotPassword)} />
 					<Route render={() => {
 						return (
 							<div>

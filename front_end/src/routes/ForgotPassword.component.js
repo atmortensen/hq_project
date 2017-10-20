@@ -5,11 +5,11 @@ import swal from 'sweetalert2'
 import axios from 'axios'
 
 
-export default class ChangePassword extends Component {
+export default class ForgotPassword extends Component {
 	constructor() {
 		super()
 		this.state={
-			password: '',
+			email: '',
 			loading: false
 		}
 	}
@@ -23,18 +23,14 @@ export default class ChangePassword extends Component {
 		this.setState({ [ field ]: event.target.value })
 	}
 
-	changePassword(e) {
+	sendEmail(e) {
 		e.preventDefault()
 		if (this.state.loading) {
 			return
 		}
 
 		this.setState({ loading: true })
-		axios.put(
-			'/api/me/password', 
-			{ password: this.state.password },
-			{ headers: { 'Authorization': localStorage.getItem('token') } } 
-		).then(({ data }) => {
+		axios.post('/api/forgot-password', { email: this.state.email }).then(({ data }) => {
 			this.setState({ loading: false })
 			if (data.error) {
 				swal(
@@ -42,16 +38,13 @@ export default class ChangePassword extends Component {
 					data.error,
 					'error'
 				)
-			} else if (data.invalidLogin) {
-				localStorage.removeItem('token')
-				this.props.history.push('/')
 			} else {
 				swal(
-					'Password Changed!',
-					null,
+					'Email Sent!',
+					'Login to your email to change your password.',
 					'success'
 				)
-				this.props.history.push('/profile')
+				this.props.history.push('/')
 			}
 		}).catch(() => {
 			this.setState({ loading: false })
@@ -67,19 +60,18 @@ export default class ChangePassword extends Component {
 	render() {
 		return (
 			<Wrapper>
-				<form onSubmit={this.changePassword.bind(this)}>
+				<form onSubmit={this.sendEmail.bind(this)}>
 					<IconInput 
-						icon="fa-lock" 
-						type="password" 
-						placeholder="New Password"
-						onChange={this.handleChange.bind(this, 'password')}
-						value={this.state.password} />
+						icon="fa-envelope" 
+						placeholder="Email"
+						onChange={this.handleChange.bind(this, 'email')}
+						value={this.state.email} />
 				
-					<Button>{ this.state.loading ? 'Loading' : 'Change' }</Button>
+					<Button>{ this.state.loading ? 'Loading' : 'Reset Password' }</Button>
 				</form>
 				
 				<Text text-align="center">
-					<Link to="/profile">Cancel</Link>
+					<Link to="/">Cancel</Link>
 				</Text>
 
 			</Wrapper>

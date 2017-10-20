@@ -13,7 +13,7 @@ app.use(express.static(__dirname + '/front_end/build'))
 
 app.post('/api/sign-in', authentication.signIn)
 app.post('/api/sign-up', authentication.signUp)
-app.post('/api/forgot-password')  
+app.post('/api/forgot-password', authentication.forgotPassword)  
 
 app.get('/sign-in/facebook', facebook.authenticate, facebook.signIn)
 app.get('/sign-in/google', google.authenticate, google.signIn)

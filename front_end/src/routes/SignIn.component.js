@@ -78,7 +78,7 @@ export default class SignIn extends Component {
 						value={this.state.password} />
 					
 					<Text text-align="right" styles="margin-top: -5px; font-size: 15px;">
-						<Link to="/">Forgot Password?</Link>
+						<Link to="/forgot-password">Forgot Password?</Link>
 					</Text>
 
 					<Button>{this.state.loading ? 'Loading' : 'Sign In'}</Button>
