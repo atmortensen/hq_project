@@ -17,7 +17,7 @@ export default class Routes extends Component {
 					<Route exact path="/" component={insecure(SignIn)} />
 					<Route exact path="/sign-up" component={insecure(SignUp)} />
 					<Route exact path="/profile" component={secure(Profile)} />
-					<Route exact path="/change-password" component={insecure(ChangePassword)} />
+					<Route exact path="/change-password" component={ChangePassword} />
 					<Route exact path="/social-login-success" component={insecure(SocialLoginSuccess)} />
 					<Route exact path="/forgot-password" component={insecure(ForgotPassword)} />
 					<Route render={() => {
