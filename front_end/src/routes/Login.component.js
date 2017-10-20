@@ -1,12 +1,10 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import styled from 'styled-components'
+// import styled from 'styled-components'
+import { Head, Button, Link, Wrapper } from './shared/customComponents'
+import IconInput from './shared/IconInput.component'
 
-const Wrapper = styled.div`
 
-`
-
-class ChangeMe extends Component {
+export default class Login extends Component {
 	constructor() {
 		super()
 		this.state={
@@ -27,13 +25,18 @@ class ChangeMe extends Component {
 		return (
 			<Wrapper>
 
+				<Head>Welcome to the Loginer</Head>
+
+				<IconInput icon="fa-user" placeholder="Email" onChange={({ target }) => console.log(target.value)} />
+				<IconInput icon="fa-lock" type="password" placeholder="Password" />
+
+				<Button>Login</Button>
+				<Link to="/">Forgot Password?</Link> | <Link to="/">Sign Up</Link>
+
+				<Button>Facebook</Button>
+				<Button>Google</Button>
+
 			</Wrapper>
 		)
 	}
 }
-
-export default connect(state => ({
-	// Map state to props.
-}), {
-	// Map dispatch to props.
-})(ChangeMe)

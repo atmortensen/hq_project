@@ -2,26 +2,26 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import Routes from './Routes'
 import { injectGlobal } from 'styled-components'
-
-import { Provider } from 'react-redux'
-import { createStore, applyMiddleware, combineReducers } from 'redux'
-import thunk from 'redux-thunk'
-import reducers from './ducks'
+import '../node_modules/font-awesome/css/font-awesome.min.css'
 
 // Global styles to be used sparingly...
 // eslint-disable-next-line
 injectGlobal`
 	* {
 		font-family: sans-serif;
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+	}
+
+	body {
+		background: #303038;
+		min-height: 100vh;
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 	}
 `
 
-const myStore = applyMiddleware(thunk)(createStore)
-const rootReducer = combineReducers(reducers)
-
-ReactDOM.render(
-	<Provider store={myStore(rootReducer)}>
-		<Routes />
-	</Provider>,
-	document.getElementById('root')
-)
+ReactDOM.render(<Routes />,	document.getElementById('root'))

@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
 
 `
 
-class ChangeMe extends Component {
+export default class ChangeMe extends Component {
 	constructor() {
 		super()
 		this.state={
@@ -31,9 +30,3 @@ class ChangeMe extends Component {
 		)
 	}
 }
-
-export default connect(state => ({
-	// Map state to props.
-}), {
-	// Map dispatch to props.
-})(ChangeMe)
