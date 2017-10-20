@@ -70,6 +70,9 @@ export function updateProfile() {
 				data.error,
 				'error'
 			)
+		} else if (data.invalidLogin) {
+			localStorage.removeItem('token')
+			this.props.history.push('/')
 		} else {
 			this.setState({
 				name: data.name || '',

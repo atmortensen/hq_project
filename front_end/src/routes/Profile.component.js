@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Button, Wrapper, Link, Text, SocialIcon, Break } from './shared/customComponents'
 import styled from 'styled-components'
 import IconInput from './shared/IconInput.component'
-import { getProfile, deleteProfile, updateProfile } from './shared/helpers'
+import { getProfile, deleteProfile, updateProfile } from './shared/profileHelpers'
 
 const ControlButtons = styled.div`
 	display: flex;
@@ -55,7 +55,7 @@ export default class Profile extends Component {
 				</form>
 
 				<Text text-align="right" styles="margin-top: -5px; font-size: 15px;">
-					<Link to="/">Change/Add Password</Link>
+					<Link to="/change-password">Change/Add Password</Link>
 				</Text>
 
 				<ControlButtons>

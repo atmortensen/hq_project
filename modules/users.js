@@ -30,7 +30,7 @@ module.exports.put = (req, res) => {
 
 // Change Password
 module.exports.changePassword = (req, res) => {
-	
+	res.send()
 }
 
 // Archive User
