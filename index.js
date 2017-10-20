@@ -24,6 +24,10 @@ app.put('/api/me', authentication.secure, users.put)
 app.put('/api/me/password', authentication.secure, users.changePassword)
 app.delete('/api/me', authentication.secure, users.delete)
 
+app.get('*', (req, res) => {
+	res.sendFile(__dirname + '/front_end/build/index.html')
+})
+
 app.listen(process.env.PORT, () => {
 	console.log('Listening on port ' + process.env.PORT)
 })
