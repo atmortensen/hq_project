@@ -2,8 +2,7 @@ import React, { Component } from 'react'
 import { Button, Wrapper, Link, Text, SocialIcon, Break } from './shared/customComponents'
 // import styled from 'styled-components'
 import IconInput from './shared/IconInput.component'
-import swal from 'sweetalert2'
-import axios from 'axios'
+import { getProfile, deleteProfile } from './shared/helpers'
 
 
 export default class Profile extends Component {
@@ -21,34 +20,7 @@ export default class Profile extends Component {
 	}
 
 	componentDidMount() {
-		this.setState({ loading: true })
-		axios.get('/api/me', { headers: { 'Authorization': localStorage.getItem('token') } }).then(({ data }) => {
-			this.setState({ loading: false })
-			if (data.error) {
-				swal(
-					'Uh Oh!',
-					data.error,
-					'error'
-				)
-			} else if (data.invalidLogin) {
-				localStorage.removeItem('token')
-				this.props.history.push('/')
-			} else {
-				this.setState({
-					name: data.name || '',
-					email: data.email || '',
-					googleId: data.google_id || '',
-					facebookId: data.facebook_id || ''
-				})
-			}
-		}).catch(() => {
-			this.setState({ loading: false })
-			swal(
-				'Uh Oh!',
-				'Something went wrong. Please try again later.',
-				'error'
-			)
-		})
+		getProfile.apply(this)
 	}
 
 	// Input handle function
@@ -59,29 +31,6 @@ export default class Profile extends Component {
 	logout() {
 		localStorage.removeItem('token')
 		this.props.history.push('/')
-	}
-
-	deleteProfile() {
-		swal({
-			title: 'Are you sure?',
-			text: 'You are about to permanently delete your profile.',
-			type: 'warning',
-			showCancelButton: true,
-			confirmButtonColor: '#d33',
-			confirmButtonText: 'Continue'
-		}).then(() => {
-			this.setState({ loading: true })
-			axios.delete('/api/me', { headers: { 'Authorization': localStorage.getItem('token') } }).then(() => {
-				this.logout()
-			}).catch(() => {
-				this.setState({ loading: false })
-				swal(
-					'Uh Oh!',
-					'Something went wrong. Please try again later.',
-					'error'
-				)
-			})
-		}).catch(() => {})
 	}
 
 	render() {
@@ -106,7 +55,7 @@ export default class Profile extends Component {
 					<Link to="/">Change/Add Password</Link>
 				</Text>
 
-				<Button onClick={this.deleteProfile.bind(this)}>{ this.state.loading ? 'Loading' : 'Edit Profile' }</Button>
+				<Button onClick={deleteProfile.bind(this)}>{ this.state.loading ? 'Loading' : 'Edit Profile' }</Button>
 
 				<Break />
 				<Text text-align="center">
