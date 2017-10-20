@@ -12,7 +12,10 @@ export default class Login extends Component {
 	constructor() {
 		super()
 		this.state={
-
+			email: '',
+			password: '',
+			facebookUrl: process.env.NODE_ENV === 'development' ? 'http://localhost:5000/sign-in/facebook' : '/sign-in/facebook',
+			googleUrl: process.env.NODE_ENV === 'development' ? 'http://localhost:5000/sign-in/google' : '/sign-in/google'
 		}
 	}
 
@@ -49,10 +52,10 @@ export default class Login extends Component {
 					Or sign in with a social account...
 				</Text>
 
-				<Button styles="background: #F3501F;" padded>
+				<Button styles="background: #F3501F;" padded onClick={() => window.location.replace(this.state.googleUrl)}>
 					<SocialIcon className="fa fa-google-plus-official"></SocialIcon> Google
 				</Button>
-				<Button styles="background: #3B5997;" padded>
+				<Button styles="background: #3B5997;" padded onClick={() => window.location.replace(this.state.facebookUrl)}>
 					<SocialIcon className="fa fa-facebook-official"></SocialIcon> Facebook
 				</Button>
 

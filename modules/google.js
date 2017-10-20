@@ -22,8 +22,9 @@ module.exports.authenticate = passport.authenticate('google', { session: false, 
 module.exports.signIn = (req, res) => {
 
 	const redirect = (id) => {
+		const frontEndUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000/' : '/'
 		const tempToken = jwt.sign({ id: id }, process.env.JWT_SECRET, { expiresIn: 60 })
-		res.redirect('/social-login-success?temp=' + tempToken)
+		res.redirect(`${ frontEndUrl }social-login-success?temp=${ tempToken }`)
 	}
 
 	const signIn = (existingUser) => {

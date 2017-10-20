@@ -47,8 +47,15 @@ export default class SignUp extends Component {
 				)
 			} else {
 				localStorage.setItem('token', data.token)
-				this.props.router.push('/profile')
+				this.props.history.push('/profile')
 			}
+		}).catch(() => {
+			this.setState({ loading: false })
+			swal(
+				'Uh Oh!',
+				'Something went wrong. Please try again later.',
+				'error'
+			)
 		})
 
 	}
