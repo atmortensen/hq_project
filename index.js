@@ -32,7 +32,6 @@ app.listen(process.env.PORT, () => {
 // To Do
 // - Forgot Password Route
 // - Change Password Route
-// - Create endpoint that takes temporary JWT and returns a permanent one.
 
 // Front End Routes
 // - Sign In (email, password, facebook, google)

@@ -23,7 +23,7 @@ module.exports.signIn = (req, res) => {
 
 	const redirect = (id) => {
 		const tempToken = jwt.sign({ id: id }, process.env.JWT_SECRET, { expiresIn: 60 })
-		res.redirect('/social-success?temp=' + tempToken)
+		res.redirect('/social-login-success?temp=' + tempToken)
 	}
 
 	const signIn = (existingUser) => {
