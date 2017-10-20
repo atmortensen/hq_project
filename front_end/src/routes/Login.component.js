@@ -39,7 +39,7 @@ export default class Login extends Component {
 				<Button>Sign In</Button>
 
 				<Text text-align="center">
-					Not registered? <Link to="/">Create an Account</Link>
+					Not registered? <Link to="/sign-up">Create an Account</Link>
 				</Text>
 
 				<Break />
