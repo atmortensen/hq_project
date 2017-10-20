@@ -67,6 +67,29 @@ export default class Profile extends Component {
 		this.props.history.push('/')
 	}
 
+	deleteProfile() {
+		swal({
+			title: 'Are you sure?',
+			text: 'You are about to delete your profile.',
+			type: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#d33',
+			confirmButtonText: 'Continue'
+		}).then(() => {
+			this.setState({ loading: true })
+			axios.delete('/api/me', { headers: { 'Authorization': localStorage.getItem('token') } }).then(() => {
+				this.logout()
+			}).catch(() => {
+				this.setState({ loading: false })
+				swal(
+					'Uh Oh!',
+					'Something went wrong. Please try again later.',
+					'error'
+				)
+			})
+		}).catch(() => {})
+	}
+
 	render() {
 		return (
 			<Wrapper>
@@ -91,13 +114,13 @@ export default class Profile extends Component {
 						disabled={!this.state.editing}
 						onChange={this.handleChange.bind(this, 'facebookId')}
 						value={this.state.facebookId} />
-
-					<Text text-align="right" styles="margin-top: -5px; font-size: 15px;">
-						<Link to="/">Change/Add Password</Link>
-					</Text>
-
-					<Button>{ this.state.loading ? 'Loading' : 'Edit Profile' }</Button>
 				</form>
+
+				<Text text-align="right" styles="margin-top: -5px; font-size: 15px;">
+					<Link to="/">Change/Add Password</Link>
+				</Text>
+
+				<Button onClick={this.deleteProfile.bind(this)}>{ this.state.loading ? 'Loading' : 'Edit Profile' }</Button>
 				
 				<Text text-align="center">
 					<Logout onClick={this.logout.bind(this)}>Logout</Logout>
