@@ -3,7 +3,7 @@ import { Button, Link, Wrapper, Text } from './shared/customComponents'
 import IconInput from './shared/IconInput.component'
 import swal from 'sweetalert2'
 import axios from 'axios'
-
+import queryString from 'query-string'
 
 export default class ChangePassword extends Component {
 	constructor() {
@@ -30,10 +30,11 @@ export default class ChangePassword extends Component {
 		}
 
 		this.setState({ loading: true })
+		const token = localStorage.getItem('token') ? localStorage.getItem('token') : queryString.parse(this.props.location.search).temp
 		axios.put(
 			'/api/me/password', 
 			{ password: this.state.password },
-			{ headers: { 'Authorization': localStorage.getItem('token') } } 
+			{ headers: { 'Authorization': token } } 
 		).then(({ data }) => {
 			this.setState({ loading: false })
 			if (data.error) {

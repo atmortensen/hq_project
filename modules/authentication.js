@@ -94,7 +94,7 @@ module.exports.forgotPassword = (req, res) => {
 					subject: 'Password Reset',
 					html: `
 						<p>Click on the link below to reset your password.</p>
-						<a href="${ frontEndUrl }change-password?token=${ tempToken }">Reset Password</a>
+						<a href="${ frontEndUrl }change-password?temp=${ tempToken }">Reset Password</a>
 						<p>This link will expire in 30 minutes. If you did not request this email you can ignore it.
 					`
 				}
@@ -109,17 +109,3 @@ module.exports.forgotPassword = (req, res) => {
 		}).catch(() => res.json({ error: 'Server error.' }))
 	}
 }
-
-
-// db.query(`
-// 	DROP TABLE IF EXISTS users;
-// 	CREATE TABLE users (
-// 		id SERIAL PRIMARY KEY NOT NULL,
-// 		password TEXT,
-// 		email TEXT NOT NULL,
-// 		name TEXT NOT NULL,
-// 		facebook_id TEXT,
-// 		google_id TEXT,
-// 		archived TEXT
-// 	)
-// `)
