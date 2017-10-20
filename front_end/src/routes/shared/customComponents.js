@@ -1,8 +1,18 @@
 import styled from 'styled-components'
 import { Link as RouterLink } from 'react-router-dom'
 
-export const Head = styled.h1`
+export const Break = styled.div`
+	width: 100%;
+	background: #666;
+	height: 1px;
+	margin: 25px 0; 
+`
 
+export const Text = styled.p`
+	color: #ACADAD;
+	text-align: ${ props => props['text-align'] };
+	margin: 10px 0;
+	${ props => props.styles }
 `
 
 export const Wrapper = styled.div`
@@ -26,9 +36,24 @@ export const Input = styled.input`
 `
 
 export const Button = styled.button`
-
+	width: 100%;
+	color: #fff;
+	text-transform: uppercase;
+	height: 50px;
+	border: none;
+	background: #E94C86;
+	font-size: 20px;
+	letter-spacing: 1px;
+	cursor: pointer;
+	vertical-align: center;
+	margin: ${ props => props.padded ? '5px 0' : '0' };
+	${ props => props.styles }
 `
 
 export const Link = styled(RouterLink)`
-
+	color: #f2f2f2;
+	text-decoration: none;
+	&:hover {
+		text-decoration: underline;
+	}
 `

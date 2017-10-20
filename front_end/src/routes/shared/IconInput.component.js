@@ -9,8 +9,7 @@ const Wrapper = styled.div`
 	
 `
 const Icon = styled.div`
-	width: 50px;
-	height: 50px;
+	width: 55px;
 	background: #363B41;
 	color: #ACADAD;
 	display: flex;
