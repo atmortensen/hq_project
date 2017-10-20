@@ -29,14 +29,16 @@ export default class Login extends Component {
 		return (
 			<Wrapper>
 
-				<IconInput icon="fa-envelope" placeholder="Email" onChange={({ target }) => console.log(target.value)} />
-				<IconInput icon="fa-lock" type="password" placeholder="Password" />
-				
-				<Text text-align="right" styles="margin-top: -5px; font-size: 15px;">
-					<Link to="/">Forgot Password?</Link>
-				</Text>
+				<form>
+					<IconInput icon="fa-envelope" placeholder="Email" onChange={({ target }) => console.log(target.value)} />
+					<IconInput icon="fa-lock" type="password" placeholder="Password" />
+					
+					<Text text-align="right" styles="margin-top: -5px; font-size: 15px;">
+						<Link to="/">Forgot Password?</Link>
+					</Text>
 
-				<Button>Sign In</Button>
+					<Button>Sign In</Button>
+				</form>
 
 				<Text text-align="center">
 					Not registered? <Link to="/sign-up">Create an Account</Link>

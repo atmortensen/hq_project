@@ -25,8 +25,15 @@ module.exports.signIn = (req, res) => {
 // Sign Up
 module.exports.signUp = (req, res) => {
 	const { email, password, name } = req.body
+
+	const emailValidator = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+
 	if (!email || !password || !name) {
-		res.json({ error: 'Please fill out all fields.' })
+		res.json({ error: 'Please fill out all fields to continue.' })
+	} else if (password.length < 5) {
+		res.json({ error: 'Password must be at least 5 characters in length.' })
+	} else if (!emailValidator.test(email)) {
+		res.json({ error: 'Please enter a valid email.' })
 	} else {
 		db.query('SELECT * FROM users WHERE email = $1 AND archived IS NULL', [email]).then(({ rows: existingUser }) => {
 			if (existingUser[0]) {

@@ -2,7 +2,9 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import Routes from './Routes'
 import { injectGlobal } from 'styled-components'
+
 import '../node_modules/font-awesome/css/font-awesome.min.css'
+import '../node_modules/sweetalert2/dist/sweetalert2.min.css'
 
 // Global styles to be used sparingly...
 // eslint-disable-next-line
