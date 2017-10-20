@@ -1,14 +1,9 @@
 import React, { Component } from 'react'
-import styled from 'styled-components'
-import { Button, Link, Wrapper, Text, Break } from './shared/customComponents'
+import { Button, Link, Wrapper, Text, Break, SocialIcon } from './shared/customComponents'
 import IconInput from './shared/IconInput.component'
 import swal from 'sweetalert2'
 import axios from 'axios'
 
-const SocialIcon = styled.i`
-	vertical-align: -3px;
-	font-size: 32px !important;
-`
 
 export default class SignIn extends Component {
 	constructor() {

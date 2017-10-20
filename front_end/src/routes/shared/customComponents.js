@@ -50,6 +50,11 @@ export const Button = styled.button`
 	${ props => props.styles }
 `
 
+export const SocialIcon = styled.i`
+vertical-align: -3px;
+font-size: 32px !important;
+`
+
 export const Link = styled(RouterLink)`
 	color: #f2f2f2;
 	text-decoration: none;
