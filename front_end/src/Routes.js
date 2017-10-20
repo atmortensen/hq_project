@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
-import Login from './routes/Login.component'
+import SignIn from './routes/SignIn.component'
 import SignUp from './routes/SignUp.component'
 import Profile from './routes/Profile.component'
 import SocialLoginSuccess from './routes/SocialLoginSuccess.component'
@@ -11,7 +11,7 @@ export default class Routes extends Component {
 		return (
 			<BrowserRouter>
 				<Switch>
-					<Route exact path="/" component={Login} />
+					<Route exact path="/" component={SignIn} />
 					<Route exact path="/sign-up" component={SignUp} />
 					<Route exact path="/profile" component={Profile} />
 					<Route exact path="/social-login-success" component={SocialLoginSuccess} />
