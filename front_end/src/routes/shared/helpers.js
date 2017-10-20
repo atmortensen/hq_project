@@ -56,3 +56,38 @@ export function getProfile() {
 		)
 	})
 }
+
+// Update Profile
+export function updateProfile() {
+	const payload = {
+		name: this.state.name,
+		email: this.state.email
+	}
+	axios.put('/api/me', payload, { headers: { 'Authorization': localStorage.getItem('token') } }).then(({ data }) => {
+		if (data.error) {
+			swal(
+				'Uh Oh!',
+				data.error,
+				'error'
+			)
+		} else {
+			this.setState({
+				name: data.name || '',
+				email: data.email || '',
+				googleId: data.google_id || '',
+				facebookId: data.facebook_id || ''
+			})
+			swal(
+				'Success',
+				'Profile updated successfully.',
+				'success'
+			)
+		}
+	}).catch(() => {
+		swal(
+			'Uh Oh!',
+			'Something went wrong. Please try again later.',
+			'error'
+		)
+	})
+}

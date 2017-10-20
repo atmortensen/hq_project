@@ -10,7 +10,7 @@ import '../node_modules/sweetalert2/dist/sweetalert2.min.css'
 // eslint-disable-next-line
 injectGlobal`
 	* {
-		font-family: sans-serif;
+		font-family: 'Roboto', sans-serif;
 		margin: 0;
 		padding: 0;
 		box-sizing: border-box;

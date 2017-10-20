@@ -42,12 +42,11 @@ export const Input = styled.input`
 export const Button = styled.button`
 	width: 100%;
 	color: #fff;
-	text-transform: uppercase;
+	letter-spacing: .5px;
 	height: 50px;
 	border: none;
 	background: #E94C86;
 	font-size: 20px;
-	letter-spacing: 1px;
 	cursor: pointer;
 	vertical-align: center;
 	margin: ${ props => props.padded ? '5px 0' : '0' };

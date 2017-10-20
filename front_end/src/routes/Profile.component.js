@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
 import { Button, Wrapper, Link, Text, SocialIcon, Break } from './shared/customComponents'
-// import styled from 'styled-components'
+import styled from 'styled-components'
 import IconInput from './shared/IconInput.component'
-import { getProfile, deleteProfile } from './shared/helpers'
+import { getProfile, deleteProfile, updateProfile } from './shared/helpers'
 
+const ControlButtons = styled.div`
+	display: flex;
+`
 
 export default class Profile extends Component {
 	constructor() {
@@ -55,7 +58,12 @@ export default class Profile extends Component {
 					<Link to="/">Change/Add Password</Link>
 				</Text>
 
-				<Button onClick={deleteProfile.bind(this)}>{ this.state.loading ? 'Loading' : 'Edit Profile' }</Button>
+				<ControlButtons>
+					<Button styles="background: #5AB75F;" onClick={updateProfile.bind(this)}>Save</Button>
+					<Button styles="margin: 0 10px; background: #5AC1DA;" onClick={getProfile.bind(this)}>Reset</Button>
+					<Button styles="background: #DB524C;" onClick={deleteProfile.bind(this)}>Delete</Button>
+				</ControlButtons>
+				
 
 				<Break />
 				<Text text-align="center">
