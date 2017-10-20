@@ -1,6 +1,10 @@
 import styled from 'styled-components'
 import { Link as RouterLink } from 'react-router-dom'
 
+export const Head = styled.h2`
+	color: #ACADAD;
+`
+
 export const Break = styled.div`
 	width: 100%;
 	background: #666;
@@ -61,4 +65,5 @@ export const Link = styled(RouterLink)`
 	&:hover {
 		text-decoration: underline;
 	}
+	${ props => props.styles }
 `

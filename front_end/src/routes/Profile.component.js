@@ -1,9 +1,17 @@
 import React, { Component } from 'react'
-import { Button, Link, Wrapper, Text } from './shared/customComponents'
+import { Button, Wrapper, Link, Text } from './shared/customComponents'
+import styled from 'styled-components'
 import IconInput from './shared/IconInput.component'
 import swal from 'sweetalert2'
 import axios from 'axios'
 
+const Logout = styled.span`
+	color: #fff;
+	cursor: pointer;
+	&:hover {
+		text-decoration: underline;
+	}
+`
 
 export default class Profile extends Component {
 	constructor() {
@@ -11,15 +19,17 @@ export default class Profile extends Component {
 		this.state={
 			name: '',
 			email: '',
-			password: '',
 			googleId: '',
 			facebookId: '',
-			loading: false
+			loading: false,
+			editing: false
 		}
 	}
 
 	componentDidMount() {
+		this.setState({ loading: true })
 		axios.get('/api/me', { headers: { 'Authorization': localStorage.getItem('token') } }).then(({ data }) => {
+			this.setState({ loading: false })
 			if (data.error) {
 				swal(
 					'Uh Oh!',
@@ -30,9 +40,15 @@ export default class Profile extends Component {
 				localStorage.removeItem('token')
 				this.props.history.push('/')
 			} else {
-				console.log(data)
+				this.setState({
+					name: data.name || '',
+					email: data.email || '',
+					googleId: data.google_id || '',
+					facebookId: data.facebook_id || ''
+				})
 			}
 		}).catch(() => {
+			this.setState({ loading: false })
 			swal(
 				'Uh Oh!',
 				'Something went wrong. Please try again later.',
@@ -46,68 +62,45 @@ export default class Profile extends Component {
 		this.setState({ [ field ]: event.target.value })
 	}
 
-	signUp(e) {
-		e.preventDefault()
-		if (this.state.loading) {
-			return
-		}
-
-		const payload = {
-			name: this.state.name,
-			email: this.state.email,
-			password: this.state.password
-		}
-		this.setState({ loading: true })
-		axios.post('/api/sign-up', payload).then(({ data }) => {
-			this.setState({ loading: false })
-			if (data.error) {
-				swal(
-					'Uh Oh!',
-					data.error,
-					'error'
-				)
-			} else {
-				localStorage.setItem('token', data.token)
-				this.props.history.push('/profile')
-			}
-		}).catch(() => {
-			this.setState({ loading: false })
-			swal(
-				'Uh Oh!',
-				'Something went wrong. Please try again later.',
-				'error'
-			)
-		})
-
+	logout() {
+		localStorage.removeItem('token')
+		this.props.history.push('/')
 	}
 
 	render() {
 		return (
 			<Wrapper>
-				<form onSubmit={this.signUp.bind(this)}>
+				<form>
 					<IconInput 
 						icon="fa-user" 
-						placeholder="Name" 
+						disabled={!this.state.editing}
 						onChange={this.handleChange.bind(this, 'name')}
 						value={this.state.name} />
 					<IconInput 
 						icon="fa-envelope" 
-						placeholder="Email" 
+						disabled={!this.state.editing}
 						onChange={this.handleChange.bind(this, 'email')}
 						value={this.state.email} />
 					<IconInput 
-						icon="fa-lock" 
-						type="password" 
-						placeholder="Password"
-						onChange={this.handleChange.bind(this, 'password')}
-						value={this.state.password} />
-				
+						icon="fa-google-plus-official" 
+						disabled={!this.state.editing}
+						onChange={this.handleChange.bind(this, 'googleId')}
+						value={this.state.googleId} />
+					<IconInput 
+						icon="fa-facebook-official" 
+						disabled={!this.state.editing}
+						onChange={this.handleChange.bind(this, 'facebookId')}
+						value={this.state.facebookId} />
 
-					<Button>{ this.state.loading ? 'Loading' : 'Sign Up' }</Button>
+					<Text text-align="right" styles="margin-top: -5px; font-size: 15px;">
+						<Link to="/">Change/Add Password</Link>
+					</Text>
+
+					<Button>{ this.state.loading ? 'Loading' : 'Edit Profile' }</Button>
 				</form>
 				
 				<Text text-align="center">
-					<Link to="/">Cancel</Link>
+					<Logout onClick={this.logout.bind(this)}>Logout</Logout>
 				</Text>
 
 			</Wrapper>

@@ -66,7 +66,7 @@ module.exports.secure = (req, res, next) => {
 // Get Auth Token
 module.exports.getToken = (req, res) => {
 	jwt.verify(req.body.token, process.env.JWT_SECRET, (err, payload) => {
-		if (err) {
+		if (err || !payload.id) {
 			res.redirect('/')
 		} else {
 			res.json({ token: jwt.sign({ id: payload.id }, process.env.JWT_SECRET) })

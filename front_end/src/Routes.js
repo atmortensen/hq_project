@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { Head, Link, Text } from './routes/shared/customComponents'
 
 import SignIn from './routes/SignIn.component'
 import SignUp from './routes/SignUp.component'
@@ -15,7 +16,14 @@ export default class Routes extends Component {
 					<Route exact path="/sign-up" component={insecure(SignUp)} />
 					<Route exact path="/profile" component={secure(Profile)} />
 					<Route exact path="/social-login-success" component={insecure(SocialLoginSuccess)} />
-					<Route render={() => <h2>Page not found!</h2>} />
+					<Route render={() => {
+						return (
+							<div>
+								<Head>Page not found!</Head>
+								<Text styles="text-align: center;"><Link to="/">Return Home</Link></Text>
+							</div>
+						)
+					}} />
 				</Switch>
 			</BrowserRouter>
 		)
