@@ -27,15 +27,3 @@ app.delete('/api/me', authentication.secure, users.delete)
 app.listen(process.env.PORT, () => {
 	console.log('Listening on port ' + process.env.PORT)
 })
-
-
-// To Do
-// - Forgot Password Route
-// - Change Password Route
-
-// Front End Routes
-// - Sign In (email, password, facebook, google)
-// - Sign Up (name, email, password)
-// - Forgot Password
-// - Profile (name change, email change, google id connect, facebook id connect, logout) Must use the same email to connect 
-// - Change/Add Password

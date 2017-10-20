@@ -1,17 +1,10 @@
 import React, { Component } from 'react'
-import { Button, Wrapper, Link, Text } from './shared/customComponents'
-import styled from 'styled-components'
+import { Button, Wrapper, Link, Text, SocialIcon, Break } from './shared/customComponents'
+// import styled from 'styled-components'
 import IconInput from './shared/IconInput.component'
 import swal from 'sweetalert2'
 import axios from 'axios'
 
-const Logout = styled.span`
-	color: #fff;
-	cursor: pointer;
-	&:hover {
-		text-decoration: underline;
-	}
-`
 
 export default class Profile extends Component {
 	constructor() {
@@ -22,7 +15,8 @@ export default class Profile extends Component {
 			googleId: '',
 			facebookId: '',
 			loading: false,
-			editing: false
+			facebookUrl: process.env.NODE_ENV === 'development' ? 'http://localhost:5000/sign-in/facebook' : '/sign-in/facebook',
+			googleUrl: process.env.NODE_ENV === 'development' ? 'http://localhost:5000/sign-in/google' : '/sign-in/google'
 		}
 	}
 
@@ -70,7 +64,7 @@ export default class Profile extends Component {
 	deleteProfile() {
 		swal({
 			title: 'Are you sure?',
-			text: 'You are about to delete your profile.',
+			text: 'You are about to permanently delete your profile.',
 			type: 'warning',
 			showCancelButton: true,
 			confirmButtonColor: '#d33',
@@ -91,29 +85,21 @@ export default class Profile extends Component {
 	}
 
 	render() {
+		if (this.state.loading) {
+			return <Wrapper><Text styles="text-align: center;">Loading...</Text></Wrapper>
+		}
+
 		return (
 			<Wrapper>
 				<form>
 					<IconInput 
 						icon="fa-user" 
-						disabled={!this.state.editing}
 						onChange={this.handleChange.bind(this, 'name')}
 						value={this.state.name} />
 					<IconInput 
 						icon="fa-envelope" 
-						disabled={!this.state.editing}
 						onChange={this.handleChange.bind(this, 'email')}
 						value={this.state.email} />
-					<IconInput 
-						icon="fa-google-plus-official" 
-						disabled={!this.state.editing}
-						onChange={this.handleChange.bind(this, 'googleId')}
-						value={this.state.googleId} />
-					<IconInput 
-						icon="fa-facebook-official" 
-						disabled={!this.state.editing}
-						onChange={this.handleChange.bind(this, 'facebookId')}
-						value={this.state.facebookId} />
 				</form>
 
 				<Text text-align="right" styles="margin-top: -5px; font-size: 15px;">
@@ -121,11 +107,48 @@ export default class Profile extends Component {
 				</Text>
 
 				<Button onClick={this.deleteProfile.bind(this)}>{ this.state.loading ? 'Loading' : 'Edit Profile' }</Button>
-				
+
+				<Break />
 				<Text text-align="center">
-					<Logout onClick={this.logout.bind(this)}>Logout</Logout>
+					Linked social accounts...
 				</Text>
 
+				{this.state.googleId && 
+					<IconInput 
+						icon="fa-google-plus-official" 
+						disabled
+						value={this.state.googleId} />
+				}
+				
+				{!this.state.googleId && 
+					<Button 
+						styles="background: #F3501F;" 
+						padded onClick={() => window.location.replace(this.state.googleUrl)}>
+						<SocialIcon className="fa fa-google-plus-official"></SocialIcon> Google
+					</Button>
+				}
+				
+				{this.state.facebookId && 
+					<IconInput 
+						icon="fa-facebook-official" 
+						disabled
+						value={this.state.facebookId} />
+				}
+
+				{!this.state.facebookId && 
+					<Button 
+						styles="background: #3B5997; margin-bottom: 10px;" 
+						padded onClick={() => window.location.replace(this.state.facebookUrl)}>
+						<SocialIcon className="fa fa-facebook-official"></SocialIcon> Facebook
+					</Button>
+				}
+							
+				<Text styles="margin-top: -5px; font-size: 15px;">
+					* Social accounts must use the same email address to be linked.
+				</Text>
+				
+				<Button onClick={this.logout.bind(this)}>Logout</Button>
+				
 			</Wrapper>
 		)
 	}

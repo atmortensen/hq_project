@@ -55,8 +55,9 @@ export const Button = styled.button`
 `
 
 export const SocialIcon = styled.i`
-vertical-align: -3px;
-font-size: 32px !important;
+	vertical-align: -3px;
+	font-size: 32px !important;
+	margin-left: -28px;
 `
 
 export const Link = styled(RouterLink)`
