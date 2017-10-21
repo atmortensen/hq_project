@@ -14,7 +14,7 @@ module.exports.signIn = (req, res) => {
 			const user = rows[0]
 			if (!user) {
 				res.json({ error: 'User with that email address could not be found.' })
-			} else if (bcrypt.compareSync(req.body.password, user.password)) {
+			} else if (user.password && bcrypt.compareSync(req.body.password, user.password)) {
 				res.json({ token: jwt.sign({ id: user.id }, process.env.JWT_SECRET) })
 			} else {
 				res.json({ error: 'Incorrect password. Try resetting your password or logging in with Facebook or Google.' })
